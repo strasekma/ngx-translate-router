@@ -1,7 +1,4 @@
-import {
-  NgModule, ModuleWithProviders, APP_INITIALIZER, Optional, SkipSelf,
-  Injectable, Injector, Provider
-} from '@angular/core';
+import { NgModule, ModuleWithProviders, Optional, SkipSelf, Injectable, Injector, Provider, inject, provideAppInitializer } from '@angular/core';
 import { LocalizeRouterService } from './localize-router.service';
 import { DummyLocalizeParser, LocalizeParser } from './localize-router.parser';
 import {
@@ -106,12 +103,10 @@ function createLocalizeRouterProviders(routes: Routes, config: LocalizeRouterCon
     },
     LocalizeRouterService,
     ParserInitializer,
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: getAppInitializer,
-      deps: [ParserInitializer, LocalizeParser, RAW_ROUTES]
-    },
+    provideAppInitializer(() => {
+        const initializerFn = (getAppInitializer)(inject(ParserInitializer), inject(LocalizeParser), inject(RAW_ROUTES));
+        return initializerFn();
+      }),
     {
       provide: RouteReuseStrategy,
       useClass: GilsdavReuseStrategy
