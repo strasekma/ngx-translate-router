@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders, Optional, SkipSelf, Injectable, Injector, Provider, inject, provideAppInitializer } from '@angular/core';
+import { NgModule, ModuleWithProviders, Optional, SkipSelf, Injectable, Injector, Provider, inject, provideAppInitializer, EnvironmentProviders } from '@angular/core';
 import { LocalizeRouterService } from './localize-router.service';
 import { DummyLocalizeParser, LocalizeParser } from './localize-router.parser';
 import {
@@ -76,7 +76,7 @@ export function getAppInitializer(p: ParserInitializer, parser: LocalizeParser, 
   return p.generateInitializer(parser, routesCopy).bind(p);
 }
 
-function createLocalizeRouterProviders(routes: Routes, config: LocalizeRouterConfig): Provider[] {
+function createLocalizeRouterProviders(routes: Routes, config: LocalizeRouterConfig): (Provider | EnvironmentProviders)[] {
   return [
     {
       provide: Router,

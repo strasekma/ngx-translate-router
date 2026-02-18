@@ -1,5 +1,5 @@
 import { Routes, Route, NavigationExtras, Params } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { StrictTranslation, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, Observable, Observer } from 'rxjs';
 import { Location } from '@angular/common';
 import { CacheMechanism, LocalizeRouterSettings } from './localize-router.config';
@@ -396,7 +396,7 @@ export abstract class LocalizeParser {
   /**
    * Get translated value
    */
-  private translateText(key: string): string {
+  private translateText(key: string): StrictTranslation | Observable<StrictTranslation> {
     if (this.escapePrefix && key.startsWith(this.escapePrefix)) {
       return key.replace(this.escapePrefix, '');
     } else {
@@ -404,14 +404,14 @@ export abstract class LocalizeParser {
         return key;
       }
       const fullKey = this.prefix + key;
-      const res = this.translate.getParsedResult(this._translationObject, fullKey);
+      const res = this.translate.getParsedResult(fullKey);
       return res !== fullKey ? res : key;
     }
   }
 
   /**
    * Strategy to choose between new or old queryParams
-   * @param newExtras extras that containes new QueryParams
+   * @param newExtras extras that contains new QueryParams
    * @param currentQueryParams current query params
    */
   public chooseQueryParams(newExtras: NavigationExtras, currentQueryParams: Params) {
