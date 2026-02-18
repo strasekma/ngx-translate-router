@@ -104,9 +104,9 @@ function createLocalizeRouterProviders(routes: Routes, config: LocalizeRouterCon
     LocalizeRouterService,
     ParserInitializer,
     provideAppInitializer(() => {
-        const initializerFn = (getAppInitializer)(inject(ParserInitializer), inject(LocalizeParser), inject(RAW_ROUTES));
-        return initializerFn();
-      }),
+      const initializerFn = (getAppInitializer)(inject(ParserInitializer), inject(LocalizeParser), inject(RAW_ROUTES));
+      return initializerFn();
+    }),
     {
       provide: RouteReuseStrategy,
       useClass: GilsdavReuseStrategy
