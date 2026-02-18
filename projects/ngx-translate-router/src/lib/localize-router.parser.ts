@@ -55,7 +55,6 @@ export abstract class LocalizeParser {
     });
   } */
 
-
   /**
    * Initialize language and routes
    */
@@ -78,7 +77,7 @@ export abstract class LocalizeParser {
       this.defaultLang = this._cachedLang || browserLang || this.locales[0];
     }
     selectedLanguage = locationLang || this.defaultLang;
-    this.translate.setDefaultLang(this.defaultLang);
+    this.translate.setFallbackLang(this.defaultLang);
 
     let children: Routes = [];
     /** if set prefix is enforced */
