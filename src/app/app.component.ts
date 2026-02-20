@@ -4,20 +4,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    imports: [
-        RouterLink,
-        RouterOutlet,
-        LocalizeRouterPipe,
-        TranslateModule
-    ]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  imports: [RouterLink, RouterOutlet, LocalizeRouterPipe, TranslateModule],
 })
 export class AppComponent implements OnInit {
   title = 'app';
 
-  constructor(private localize: LocalizeRouterService) { }
+  constructor(private localize: LocalizeRouterService) {}
 
   ngOnInit() {
     // should be triggered on every language change
@@ -38,5 +33,4 @@ export class AppComponent implements OnInit {
     console.log('change lang replaceUrl');
     this.localize.changeLanguage(this.localize.parser.currentLang === 'fr' ? 'en' : 'fr', { replaceUrl: true });
   }
-
 }

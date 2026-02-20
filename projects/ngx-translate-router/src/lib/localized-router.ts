@@ -1,12 +1,4 @@
-import {
-  Router,
-  ROUTES,
-  Route,
-  DefaultExport,
-  Routes,
-  PRIMARY_OUTLET,
-  ɵEmptyOutletComponent as EmptyOutletComponent,
-} from "@angular/router";
+import { Router, ROUTES, Route, DefaultExport, Routes, PRIMARY_OUTLET, ɵEmptyOutletComponent } from '@angular/router';
 import {
   Injector,
   Compiler,
@@ -16,13 +8,13 @@ import {
   Injectable,
   EnvironmentInjector,
   runInInjectionContext,
-} from "@angular/core";
-import { isPlatformBrowser } from "@angular/common";
-import { from, of, isObservable, Observable, firstValueFrom } from "rxjs";
-import { isPromise } from "./util";
-import { LocalizeParser } from "./localize-router.parser";
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { from, of, isObservable, Observable, firstValueFrom } from 'rxjs';
+import { isPromise } from './util';
+import { LocalizeParser } from './localize-router.parser';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class LocalizedRouter extends Router {
   private platformId = inject(PLATFORM_ID);
   private compiler = inject(Compiler);
@@ -41,10 +33,7 @@ export class LocalizedRouter extends Router {
       : (this as any).navigationTransitions.configLoader;
 
     // Overrides default Angular RouterConfigLoader.loadChildren method so we can extend it
-    configLoader.loadChildren = (
-      parentInjector: Injector,
-      route: any,
-    ): Promise<LoadedRouterConfig> => {
+    configLoader.loadChildren = (parentInjector: Injector, route: any): Promise<LoadedRouterConfig> => {
       if (this.childrenLoaders.get(route)) {
         return this.childrenLoaders.get(route)!;
       } else if (route._loadedRoutes) {
@@ -59,12 +48,7 @@ export class LocalizedRouter extends Router {
       }
       const loader = (async () => {
         try {
-          const result = await this.customLoadChildren(
-            route,
-            this.compiler,
-            parentInjector,
-            this.onLoadEndListener,
-          );
+          const result = await this.customLoadChildren(route, this.compiler, parentInjector, this.onLoadEndListener);
           route._loadedRoutes = result.routes;
           route._loadedInjector = result.injector;
           route._loadedNgModuleFactory = result.factory;
@@ -82,11 +66,9 @@ export class LocalizedRouter extends Router {
     route: Route,
     compiler: Compiler,
     parentInjector: Injector,
-    onLoadEndListener?: (r: Route) => void,
+    onLoadEndListener?: (r: Route) => void
   ): Promise<LoadedRouterConfig> {
-    const loaded = await wrapIntoPromise(
-      runInInjectionContext(parentInjector, () => route.loadChildren!()),
-    );
+    const loaded = await wrapIntoPromise(runInInjectionContext(parentInjector, () => route.loadChildren!()));
     const t = maybeUnwrapDefaultExport(loaded);
 
     let factoryOrRoutes: NgModuleFactory<any> | Routes;
@@ -110,7 +92,7 @@ export class LocalizedRouter extends Router {
       factory = factoryOrRoutes;
       // Added portion
       const getMethod = injector.get.bind(injector);
-      injector["get"] = (token: any, notFoundValue: any, flags?: any) => {
+      injector['get'] = (token: any, notFoundValue: any, flags?: any) => {
         const getResult = getMethod(token, notFoundValue, flags);
         if (token === ROUTES) {
           return this.localize.initChildRoutes([].concat(...getResult));
@@ -119,9 +101,7 @@ export class LocalizedRouter extends Router {
         }
       };
 
-      rawRoutes = injector
-        .get(ROUTES, [], { optional: true, self: true })
-        .flat();
+      rawRoutes = injector.get(ROUTES, [], { optional: true, self: true }).flat();
     }
     const routes = rawRoutes.map(standardizeConfig);
     return { routes, injector, factory };
@@ -131,41 +111,32 @@ export class LocalizedRouter extends Router {
 export function standardizeConfig(r: Route): Route {
   const children = r.children && r.children.map(standardizeConfig);
   const c = children ? { ...r, children } : { ...r };
-  if (
-    !c.component &&
-    !c.loadComponent &&
-    (children || c.loadChildren) &&
-    c.outlet &&
-    c.outlet !== PRIMARY_OUTLET
-  ) {
-    c.component = EmptyOutletComponent;
+  if (!c.component && !c.loadComponent && (children || c.loadChildren) && c.outlet && c.outlet !== PRIMARY_OUTLET) {
+    c.component = ɵEmptyOutletComponent;
   }
   return c;
 }
+
 export interface LoadedRouterConfig {
   routes: Route[];
   injector: EnvironmentInjector | undefined;
   factory?: NgModuleFactory<unknown>;
 }
 
-function isWrappedDefaultExport<T>(
-  value: T | DefaultExport<T>,
-): value is DefaultExport<T> {
+function isWrappedDefaultExport<T>(value: T | DefaultExport<T>): value is DefaultExport<T> {
   // We use `in` here with a string key `'default'`, because we expect `DefaultExport` objects to be
   // dynamically imported ES modules with a spec-mandated `default` key. Thus we don't expect that
   // `default` will be a renamed property.
-  return value && typeof value === "object" && "default" in value;
+  return value && typeof value === 'object' && 'default' in value;
 }
 
 function maybeUnwrapDefaultExport<T>(input: T | DefaultExport<T>): T {
   // As per `isWrappedDefaultExport`, the `default` key here is generated by the browser and not
   // subject to property renaming, so we reference it with bracket access.
-  return isWrappedDefaultExport(input) ? input["default"] : input;
+  return isWrappedDefaultExport(input) ? input['default'] : input;
 }
 
-export function wrapIntoObservable<T>(
-  value: T | NgModuleFactory<T> | Promise<T> | Observable<T>,
-) {
+export function wrapIntoObservable<T>(value: T | NgModuleFactory<T> | Promise<T> | Observable<T>) {
   if (isObservable(value)) {
     return value;
   }
@@ -180,9 +151,7 @@ export function wrapIntoObservable<T>(
   return of(value);
 }
 
-export function wrapIntoPromise<T>(
-  value: T | Promise<T> | Observable<T>,
-): Promise<T> {
+export function wrapIntoPromise<T>(value: T | Promise<T> | Observable<T>): Promise<T> {
   if (isObservable(value)) {
     return firstValueFrom(value);
   }

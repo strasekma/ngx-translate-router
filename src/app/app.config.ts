@@ -1,21 +1,15 @@
-import { importProvidersFrom } from "@angular/core";
+import { importProvidersFrom } from '@angular/core';
 
-import { provideTranslateService } from "@ngx-translate/core";
-import { AppRoutingModule } from "./app-routing.module";
-import {
-  withInterceptorsFromDi,
-  provideHttpClient,
-} from "@angular/common/http";
-import { TranslateTitleStrategy } from "./translate-title-strategy";
-import { TitleStrategy } from "@angular/router";
-import {
-  provideClientHydration,
-  BrowserModule,
-} from "@angular/platform-browser";
+import { provideTranslateService } from '@ngx-translate/core';
+import { AppRoutingModule } from './app-routing.module';
+import { withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
+import { TranslateTitleStrategy } from './translate-title-strategy';
+import { TitleStrategy } from '@angular/router';
+import { provideClientHydration, BrowserModule } from '@angular/platform-browser';
 
-import { ApplicationConfig } from "@angular/core";
-import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
-import { environment } from "src/environments/environment";
+import { ApplicationConfig } from '@angular/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { environment } from 'src/environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: `${environment.locales}/assets/locales/`,
-        suffix: ".json",
+        suffix: '.json',
       }),
     }),
     provideClientHydration(),
