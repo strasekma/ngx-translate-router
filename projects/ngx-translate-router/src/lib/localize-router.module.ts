@@ -1,20 +1,33 @@
-import { NgModule, ModuleWithProviders, Optional, SkipSelf, Injectable, Injector, Provider, inject, provideAppInitializer, EnvironmentProviders } from '@angular/core';
+import {
+  NgModule,
+  ModuleWithProviders,
+  Optional,
+  SkipSelf,
+  Injectable,
+  Injector,
+  Provider,
+  inject,
+  provideAppInitializer,
+  EnvironmentProviders,
+} from '@angular/core';
 import { LocalizeRouterService } from './localize-router.service';
 import { DummyLocalizeParser, LocalizeParser } from './localize-router.parser';
-import {
-  RouterModule, Routes, RouteReuseStrategy, Router, RouterConfigurationFeature
-} from '@angular/router';
+import { RouterModule, Routes, RouteReuseStrategy, Router, RouterConfigurationFeature } from '@angular/router';
 import { LocalizeRouterPipe } from './localize-router.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule, Location } from '@angular/common';
 import {
   ALWAYS_SET_PREFIX,
-  CACHE_MECHANISM, CACHE_NAME, DEFAULT_LANG_FUNCTION, LOCALIZE_ROUTER_FORROOT_GUARD,
-  LocalizeRouterConfig, LocalizeRouterSettings,
+  CACHE_MECHANISM,
+  CACHE_NAME,
+  DEFAULT_LANG_FUNCTION,
+  LOCALIZE_ROUTER_FORROOT_GUARD,
+  LocalizeRouterConfig,
+  LocalizeRouterSettings,
   RAW_ROUTES,
   USE_CACHED_LANG,
   COOKIE_FORMAT,
-  INITIAL_NAVIGATION
+  INITIAL_NAVIGATION,
 } from './localize-router.config';
 import { GilsdavReuseStrategy } from './gilsdav-reuse-strategy';
 import { deepCopy } from './util';
@@ -28,8 +41,7 @@ export class ParserInitializer {
   /**
    * CTOR
    */
-  constructor(private injector: Injector) {
-  }
+  constructor(private injector: Injector) {}
 
   appInitializer(): Promise<any> {
     const res = this.parser.load(this.routes);
@@ -41,7 +53,7 @@ export class ParserInitializer {
       localize.init();
 
       if (settings.initialNavigation) {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve) => {
           // @ts-ignore
           const oldAfterPreactivation = router.navigationTransitions.afterPreactivation;
           let firstInit = true;
@@ -70,22 +82,28 @@ export class ParserInitializer {
   }
 }
 
-export function getAppInitializer(p: ParserInitializer, parser: LocalizeParser, routes: Routes[]): any {
+export function getAppInitializer(): any {
+  const p = inject(ParserInitializer);
+  const parser = inject(LocalizeParser);
+  const routes = inject(RAW_ROUTES);
   // DeepCopy needed to prevent RAW_ROUTES mutation
   const routesCopy = deepCopy(routes);
   return p.generateInitializer(parser, routesCopy).bind(p);
 }
 
-function createLocalizeRouterProviders(routes: Routes, config: LocalizeRouterConfig): (Provider | EnvironmentProviders)[] {
+function createLocalizeRouterProviders(
+  routes: Routes,
+  config: LocalizeRouterConfig
+): (Provider | EnvironmentProviders)[] {
   return [
     {
       provide: Router,
-      useClass: LocalizedRouter
+      useClass: LocalizedRouter,
     },
     {
       provide: LOCALIZE_ROUTER_FORROOT_GUARD,
       useFactory: provideForRootGuard,
-      deps: [[LocalizeRouterModule, new Optional(), new SkipSelf()]]
+      deps: [[LocalizeRouterModule, new Optional(), new SkipSelf()]],
     },
     { provide: USE_CACHED_LANG, useValue: config.useCachedLang },
     { provide: ALWAYS_SET_PREFIX, useValue: config.alwaysSetPrefix },
@@ -99,31 +117,27 @@ function createLocalizeRouterProviders(routes: Routes, config: LocalizeRouterCon
     {
       provide: RAW_ROUTES,
       multi: true,
-      useValue: routes
+      useValue: routes,
     },
     LocalizeRouterService,
     ParserInitializer,
-    provideAppInitializer(() => {
-      const initializerFn = (getAppInitializer)(inject(ParserInitializer), inject(LocalizeParser), inject(RAW_ROUTES));
-      return initializerFn();
-    }),
+    provideAppInitializer(() => getAppInitializer()()),
     {
       provide: RouteReuseStrategy,
-      useClass: GilsdavReuseStrategy
-    }
+      useClass: GilsdavReuseStrategy,
+    },
   ];
 }
 
 @NgModule({
   imports: [CommonModule, RouterModule, TranslateModule, LocalizeRouterPipe],
-  exports: [LocalizeRouterPipe]
+  exports: [LocalizeRouterPipe],
 })
 export class LocalizeRouterModule {
-
   static forRoot(routes: Routes, config: LocalizeRouterConfig = {}): ModuleWithProviders<LocalizeRouterModule> {
     return {
       ngModule: LocalizeRouterModule,
-      providers: createLocalizeRouterProviders(routes, config)
+      providers: createLocalizeRouterProviders(routes, config),
     };
   }
 
@@ -134,9 +148,9 @@ export class LocalizeRouterModule {
         {
           provide: RAW_ROUTES,
           multi: true,
-          useValue: routes
-        }
-      ]
+          useValue: routes,
+        },
+      ],
     };
   }
 }
@@ -144,15 +158,15 @@ export class LocalizeRouterModule {
 export function provideForRootGuard(localizeRouterModule: LocalizeRouterModule): string {
   if (localizeRouterModule) {
     throw new Error(
-      `LocalizeRouterModule.forRoot() called twice. Lazy loaded modules should use LocalizeRouterModule.forChild() instead.`);
+      `LocalizeRouterModule.forRoot() called twice. Lazy loaded modules should use LocalizeRouterModule.forChild() instead.`
+    );
   }
   return 'guarded';
 }
 
-
 export function withLocalizeRouter(routes: Routes, config: LocalizeRouterConfig = {}): RouterConfigurationFeature {
   return {
     ɵkind: 'LocalizeRouter' as any,
-    ɵproviders: createLocalizeRouterProviders(routes, config)
+    ɵproviders: createLocalizeRouterProviders(routes, config),
   };
 }

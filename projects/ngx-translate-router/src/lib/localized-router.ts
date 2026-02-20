@@ -1,12 +1,4 @@
-import {
-  Router,
-  ROUTES,
-  Route,
-  DefaultExport,
-  Routes,
-  PRIMARY_OUTLET,
-  ɵEmptyOutletComponent as EmptyOutletComponent,
-} from '@angular/router';
+import { Router, ROUTES, Route, DefaultExport, Routes, PRIMARY_OUTLET, ɵEmptyOutletComponent } from '@angular/router';
 import {
   Injector,
   Compiler,
@@ -120,10 +112,11 @@ export function standardizeConfig(r: Route): Route {
   const children = r.children && r.children.map(standardizeConfig);
   const c = children ? { ...r, children } : { ...r };
   if (!c.component && !c.loadComponent && (children || c.loadChildren) && c.outlet && c.outlet !== PRIMARY_OUTLET) {
-    c.component = EmptyOutletComponent;
+    c.component = ɵEmptyOutletComponent;
   }
   return c;
 }
+
 export interface LoadedRouterConfig {
   routes: Route[];
   injector: EnvironmentInjector | undefined;
