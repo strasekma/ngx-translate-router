@@ -1,11 +1,10 @@
-<button (click)="switchLang()">{{ 'CHANGE_LANGUAGE' | translate }}</button>
-<br/>
-<a [routerLink]="['/'] | localize" >{{ 'GO_HOME' | translate }}</a>
+<nav>
+  <a [routerLink]="['/'] | localize">{{ 'GO_HOME' | translate }}</a>
+  <div>
+    <button (click)="switchLang()">{{ 'CHANGE_LANGUAGE' | translate }}</button>
+  </div>
+</nav>
 
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-</div>
-
-<router-outlet (activate)="routerOutletActivation(true)" (deactivate)="routerOutletActivation(false)"></router-outlet>
+<main>
+  <router-outlet (activate)="routerOutletActivation(true)" (deactivate)="routerOutletActivation(false)"></router-outlet>
+</main>

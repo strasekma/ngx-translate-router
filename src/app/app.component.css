@@ -1,0 +1,11 @@
+nav {
+  width: 100%;
+  padding: 1rem;
+  background-color: lightgray;
+  display: flex;
+  justify-content: space-between;
+}
+
+main {
+  padding: 1rem;
+}

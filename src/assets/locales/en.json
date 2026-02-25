@@ -3,13 +3,14 @@
     "ROUTES.home": "home",
     "ROUTES.test": "mytest",
     "ROUTES.bob": "george",
-    "ROUTES.yoyo": "yaya",
-    "ROUTES.sub": "sub",
     "ROUTES.map": "map",
     "ROUTES.matcher": "mymatcher",
-    "ROUTES.conditionalRedirectTo": "trConditionalRedirectTo",
+    "ROUTES.conditionalRedirectTo": "conditionalRedirectToTranslated",
+    "ROUTES.standaloneOriginal": "standaloneTranslated",
+    "ROUTES.lvl1Original": "lvl1Translated",
+    "ROUTES.lvl2Original": "lvl2Translated",
     "CHANGE_LANGUAGE": "Change language",
     "GO_HOME": "Go home",
-    "DEFAULT_TITLE": "My title",
+    "DEFAULT_TITLE": "Demo app",
     "HOME_TITLE": "Home"
 }

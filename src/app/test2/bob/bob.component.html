@@ -1,5 +1,8 @@
-<h1>Test 3 Sarah</h1>
-<a [routerLink]="['/coco'] | localize" >Go to coco</a>
-<a [routerLink]="['/both'] | localize" >Go to test3 both</a>
+<h1>test2 BobComponent</h1>
+<ul>
 
-<a [routerLink]="['/root-redirection'] | localize" >Go to root by redirection</a>
+  <li><a [routerLink]="['/coco'] | localize" >Go to coco (/coco)</a></li>
+  <li><a [routerLink]="['/both'] | localize" >Go to test3 both (/both)</a></li>
+  
+  <li><a [routerLink]="['/root-redirection'] | localize" >Go to root by redirection (/root-redirection)</a></li>
+</ul>

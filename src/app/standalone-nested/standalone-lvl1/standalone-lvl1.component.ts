@@ -3,13 +3,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 
 @Component({
-  selector: 'app-yoyo',
-  templateUrl: './yoyo.component.html',
-  styleUrls: ['./yoyo.component.css'],
+  selector: 'app-standalone-lvl1',
+  templateUrl: './standalone-lvl1.component.html',
   imports: [RouterOutlet, RouterLink, LocalizeRouterPipe],
 })
-export class YoyoComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-}
+export class StandaloneLvl1Component {}
