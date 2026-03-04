@@ -108,6 +108,7 @@ export class LocalizedRouter extends Router {
   }
 }
 
+// Copy of https://github.com/angular/angular/blob/main/packages/router/src/components/empty_outlet.ts
 export function standardizeConfig(r: Route): Route {
   const children = r.children && r.children.map(standardizeConfig);
   const c = children ? { ...r, children } : { ...r };

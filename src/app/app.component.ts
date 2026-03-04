@@ -10,8 +10,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   imports: [RouterLink, RouterOutlet, LocalizeRouterPipe, TranslateModule],
 })
 export class AppComponent implements OnInit {
-  title = 'app';
-
   constructor(private localize: LocalizeRouterService) {}
 
   ngOnInit() {
