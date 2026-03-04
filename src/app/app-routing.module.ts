@@ -1,13 +1,11 @@
 import { NgModule, inject } from '@angular/core';
 import {
-  PreloadAllModules,
   RouterModule,
   Routes,
   provideRouter,
   withComponentInputBinding,
   withDebugTracing,
   withDisabledInitialNavigation,
-  withPreloading,
 } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -30,6 +28,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { baseMatcher } from './matcher/matcher.module';
 import { detailMatcher } from './matcher/matcher-detail/matcher-detail.module';
 import { environment } from '../environments/environment';
+import { DestinationComponent } from './destination/destination.component';
 
 // export function ManualLoaderFactory(translate: TranslateService, location: Location, settings: LocalizeRouterSettings) {
 //     return new ManualParserLoader(translate, location, settings, ['en', 'fr'], 'ROUTES.', '!');
@@ -169,7 +168,7 @@ export function shouldTranslateMap(param: string): string {
     provideRouter(
       routes,
       withDebugTracing(),
-      withDisabledInitialNavigation(),
+      withDisabledInitialNavigation(), // Required for SSR
       withComponentInputBinding(),
       withLocalizeRouter(routes, {
         parser: {
@@ -179,7 +178,7 @@ export function shouldTranslateMap(param: string): string {
         },
         cacheMechanism: CacheMechanism.Cookie,
         cookieFormat: '{{value}};{{expires:20}};path=/',
-        initialNavigation: true,
+        initialNavigation: true, // Required for SSR
       })
     ),
   ],
