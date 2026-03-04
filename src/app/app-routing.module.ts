@@ -4,7 +4,6 @@ import {
   Routes,
   provideRouter,
   withComponentInputBinding,
-  withDebugTracing,
   withDisabledInitialNavigation,
 } from '@angular/router';
 import { Location } from '@angular/common';
@@ -167,7 +166,6 @@ export function shouldTranslateMap(param: string): string {
   providers: [
     provideRouter(
       routes,
-      withDebugTracing(),
       withDisabledInitialNavigation(), // Required for SSR
       withComponentInputBinding(),
       withLocalizeRouter(routes, {

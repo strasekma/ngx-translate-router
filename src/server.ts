@@ -11,7 +11,6 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
-console.log('Angular 21 SSR server');
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -40,7 +39,6 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
-  console.log('----------------- req------------------', req.url);
   angularApp
     .handle(req)
     .then((response) => {
