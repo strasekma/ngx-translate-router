@@ -5,7 +5,6 @@ export const routes: Routes = [
   {
     path: 'lvl1Original',
     component: StandaloneLvl1Component,
-    data: { discriminantPathKey: 'lvl1Original' },
     children: [
       { path: 'lvl2Original', loadChildren: () => import('./submodule/standalone-lvl2.routes').then((m) => m.routes) },
     ],

@@ -106,7 +106,6 @@ export const routes: Routes = [
   {
     path: 'standaloneOriginal',
     loadChildren: () => import('./standalone-nested/routes').then((mod) => mod.routes),
-    data: { discriminantPathKey: 'standaloneOriginal' },
   },
   {
     path: 'conditionalRedirectTo',
@@ -135,12 +134,8 @@ export const routes: Routes = [
     children: [{ path: 'home/:test', component: HomeComponent }],
   },
   { path: '404', component: NotFoundComponent },
-  { path: '**', redirectTo: '/404' },
   { path: 'destination/:param', component: DestinationComponent },
-  {
-    path: '**',
-    redirectTo: '/404',
-  },
+  { path: '**', redirectTo: '/404' },
 ];
 
 export function shouldTranslateMap(param: string): string {

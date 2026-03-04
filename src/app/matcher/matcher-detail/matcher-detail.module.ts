@@ -13,6 +13,7 @@ export function detailMatcher(baseSegments: UrlSegment[]): UrlMatchResult {
   // /:a/:id
   // /:a/:b/:id
   // /:a/:b/:c/:id
+  // 'id' must be [a-f\d]{8}
 
   if (!segments.length || !isId(segments[segments.length - 1])) {
     return null;
