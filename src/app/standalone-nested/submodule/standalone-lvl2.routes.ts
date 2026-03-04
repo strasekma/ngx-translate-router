@@ -5,6 +5,5 @@ export const routes: Routes = [
   {
     path: '',
     component: StandaloneLvl2Component,
-    data: { discriminantPathKey: 'SUB' },
   },
 ];
