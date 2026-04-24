@@ -1,5 +1,11 @@
-# ngx-translate-router
+# ngx-translate-router (deprecated)
 > An implementation of routes localization for Angular.
+
+> [!CAUTION]
+> It is with a heavy heart that I must announce (despite the fact that you have probably already noticed) that I'm no longer able to maintain this library in my free time due to personal reasons.
+> It is entirely open-source with an MIT license, so I would be happy to see someone else take it over. Thank you to all the users for these fantastic years.
+> Advice for the next person: don't do it alone.
+
 
 * ngx-translate-router
 [![npm version](https://badge.fury.io/js/%40gilsdav%2Fngx-translate-router.svg)](https://badge.fury.io/js/%40gilsdav%2Fngx-translate-router)
@@ -17,19 +23,20 @@ Based on and extension of [ngx-translate](https://github.com/ngx-translate/core)
 
 **Version to choose :**
 
-| angular version | translate-router | http-loader | type   | remarks                 |
-|-----------------|------------------|-------------|--------|-------------------------|
+| angular version | translate-router | http-loader | type   | remarks                  |
+| --------------- | ---------------- | ----------- | ------ | ------------------------ |
 | 6 - 7           | 1.0.2            | 1.0.1       | legacy |
 | 7               | 1.7.3            | 1.1.0       | legacy |
 | 8               | 2.2.3            | 1.1.0       | legacy |
 | 8 - 12          | 3.1.9            | 1.1.2       | active |
 | 13              | 4.0.1            | 2.0.0       | active |
-| 14              | 5.1.1            | 2.0.0       | active | need rxjs 7 or higher   |
-| 15              | 6.0.0            | 2.0.0       | active | minimum angular 15.0.3  |
-| 15.1            | 6.1.0            | 2.0.0       | active | minimum angular 15.1.0  |
-| 16              | 7.0.0            | 2.0.0       | active | minimum angular 16      |
-| 17              | 7.1.0            | 2.0.0       | active | optional standalone API |
-| 18              | 7.2.1            | 2.0.0       | active |  |
+| 14              | 5.1.1            | 2.0.0       | active | need rxjs 7 or higher    |
+| 15              | 6.0.0            | 2.0.0       | active | minimum angular 15.0.3   |
+| 15.1            | 6.1.0            | 2.0.0       | active | minimum angular 15.1.0   |
+| 16              | 7.0.0            | 2.0.0       | active | minimum angular 16       |
+| 17              | 7.1.0            | 2.0.0       | active | optional standalone API  |
+| 18              | 7.2.1            | 2.0.0       | active |                          |
+| 18              | 8.0.0            | 2.0.0       | active | @ngx-translate/core v17+ |
 
 Demo project can be found under sub folder `src`.
 
@@ -344,7 +351,7 @@ Setting this flag on sub route has no effect as parent route would already have 
 `LocalizeRouter` depends on `ngx-translate` core service and automatically initializes it with selected locales.
 Following code is run on `LocalizeParser` init:
 ```ts
-this.translate.setDefaultLang(cachedLanguage || languageOfBrowser || firstLanguageFromConfig);
+this.translate.setFallbackLang(cachedLanguage || languageOfBrowser || firstLanguageFromConfig);
 // ...
 this.translate.use(languageFromUrl || cachedLanguage || languageOfBrowser || firstLanguageFromConfig);
 ```
